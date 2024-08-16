@@ -1,0 +1,25 @@
+body {
+    background-color: rgb(218, 218, 218);
+}
+
+label {
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 6px;
+    /* background-color: #e9ecef; */
+}
+
+.min-width {
+    min-width: 110px;
+}
+
+.min-width-sr {
+    min-width: 60px;
+}

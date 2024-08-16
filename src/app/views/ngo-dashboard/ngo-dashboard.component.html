@@ -1,0 +1,135 @@
+<div class="container-fluid px-4">
+    <div class="row">
+        <div class="col-12 text-center mb-4">
+            <h3><span class="border-head">NGO DASHBOARD</span></h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6 ">
+            <div class="card cardHeight shodowCard ">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="border-head">Pie chart-wise hazard list</span></h4>
+                    <div id="chart">
+                        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+                            [labels]="chartOptions.labels" [title]="chartOptions.title"
+                            [responsive]="chartOptions.responsive">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6 mt-4 mt-lg-0 ">
+            <div class="card cardHeight shodowCard">
+                <div class="card-body">
+                    <h4 class="card-title"><span class="border-head">Graph wise hazard list</span></h4>
+                    <div id="barchart">
+                        <apx-chart [series]="ChartOptions1.series" [chart]="ChartOptions1.chart"
+                            [plotOptions]="ChartOptions1.plotOptions" [dataLabels]="ChartOptions1.dataLabels"
+                            [stroke]="ChartOptions1.stroke" [xaxis]="ChartOptions1.xaxis" [yaxis]="ChartOptions1.yaxis"
+                            [fill]="ChartOptions1.fill" [tooltip]="ChartOptions1.tooltip"
+                            [responsive]="ChartOptions1.responsive">
+                        </apx-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-4">
+            <div class="card shodowCard">
+                <div class="card-body">
+
+                    <!-- mat-elevation-z8 -->
+                    <div>
+                        <div class="row my-3">
+                            <div class="col-12 col-sm-6">
+                                <h4 class="text-center text-sm-start"> <span class="border-head">NGO Detail List</span>
+                                </h4>
+                            </div>
+                            <div class="col-12 col-sm-6 my-sm-0 my-2">
+                                <div class="row justify-content-center justify-content-sm-end">
+                                    <div class="col-12 col-sm-8">
+                                        <div class="">
+                                            <input type="text" class="form-control" id="searchFor"
+                                                placeholder="Search Here...." (input)="applyFilter($event)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <table mat-table [dataSource]="dataSource" style="width: 100%;">
+                            <!-- Position Column -->
+                            <ng-container matColumnDef="position">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'"> Sr.
+                                    No.
+                                </th>
+                                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                            </ng-container>
+
+                            <!-- stateName Column -->
+                            <ng-container matColumnDef="stateName">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'">
+                                    State
+                                    Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.stateName}} </td>
+                            </ng-container>
+
+                            <!-- hazardName Column -->
+                            <ng-container matColumnDef="hazardName">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'">
+                                    Hazard
+                                    Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.hazardName}} </td>
+                            </ng-container>
+
+                            <!-- typeOfOrg Column -->
+                            <ng-container matColumnDef="typeOfOrg">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'"> Type
+                                    of
+                                    ORG. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.typeOfOrg}} </td>
+                            </ng-container>
+
+                            <!-- Organization Column -->
+                            <ng-container matColumnDef="Organization">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'">
+                                    Organization </th>
+                                <td mat-cell *matCellDef="let element"> {{element.Organization}} </td>
+                            </ng-container>
+
+                            <!-- approxBudget Column -->
+                            <ng-container matColumnDef="approxBudget">
+                                <th mat-header-cell *matHeaderCellDef [style.background-color]="color"
+                                    [ngClass]="'highlight'">
+                                    Aapproximate Budget </th>
+                                <td mat-cell *matCellDef="let element"> {{element.approxBudget}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row;let i = index; columns: displayedColumns;"
+                                [ngClass]="{'even-row': i % 2 === 0, 'odd-row': i % 2 !== 0}"></tr>
+
+                        </table>
+
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                            aria-label="Select page of periodic elements">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="mt-5 bgFooter px-4  py-2">
+    <div class="row">
+        <div class="col text-center textCopyright">© 2024 Copyright: <a href="https://www.ndma.gov.in/"
+                target="_blank">NDMA</a></div>
+    </div>
+</footer>

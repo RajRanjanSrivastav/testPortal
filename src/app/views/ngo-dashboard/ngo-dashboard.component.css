@@ -1,0 +1,35 @@
+.cardHeight{
+    height: 100%;
+}
+.mat-elevation-z8{
+    width: 100%;
+}
+
+.highlight {
+    font-weight: bold;
+    color: white;
+}
+
+.even-row {
+    background-color: #f1c3c3;
+}
+.border-head{
+    border-bottom: 2px solid black;
+}
+
+.shodowCard{
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+}
+
+.bgFooter{
+    background-color: rgb(189, 189, 189);
+}
+.textCopyright{
+    font-weight: 600;
+    color: black;
+}
+
+.textCopyright>a{
+    text-decoration: none;
+    color: black;
+}

@@ -1,0 +1,1376 @@
+<div *ngIf="!showhide">
+    <section>
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col text-end">
+                    <button class="btn btn-secondary">Job Board</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <form [formGroup]="addUserFrom">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Position applied
+                                                for<span class="text-danger">*</span></label>
+                                            <select class="form-control" name="post_id" id="post_id"
+                                                formControlName="post_id">
+                                                <option value disabled selected>
+                                                    Select
+                                                    Position
+
+                                                </option>
+                                                <option *ngFor="let position of positionDropDownList"
+                                                    [value]="position.id">
+                                                    {{
+                                                    position.post_name
+                                                    }}
+                                                </option>
+                                            </select>
+                                            <!-- 
+
+                                            <input type="text" name="position"
+                                                required class="form-control"
+                                                id="position"
+                                                placeholder="Enter Position"
+                                                formControlName="position"> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="salutation">Salutation
+                                                <span class="text-danger">*</span></label>
+                                            <select id="salutation" class="form-control" name="Salutation"
+                                                formControlName="salutation">
+                                                <option value disabled selected>Select your
+                                                    Salutation</option>
+                                                <option value="Mr">Mr.</option>
+                                                <option value="Mrs">Mrs.</option>
+                                                <option value="Ms">Ms.</option>
+                                                <option value="Dr.">Dr.</option>
+                                                <!-- Add more options as needed -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="name">Name <span class="text-danger">*</span></label>
+                                            <input type="text" name="name" required class="form-control" id="name"
+                                                placeholder="Enter your name" formControlName="name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="fathername">Father Name
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" name="fathername" required class="form-control"
+                                                id="fathername" placeholder="Enter your name"
+                                                formControlName="fathername">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="mothername">Mother Name
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" name="mothername" required class="form-control"
+                                                id="mothername" placeholder="Enter your name"
+                                                formControlName="mothername">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Gender
+                                                <span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="Name" formControlName="gender">
+                                                <option value disabled selected>Select
+                                                    Gender</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                                <option value="Others">Others</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Marital Status
+                                                <span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="Name"
+                                                formControlName="marital_status">
+                                                <option value disabled selected>Select Marital
+                                                    Status</option>
+                                                <option value="Married">Married</option>
+                                                <option value="Unmarried">Unmarried</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6"
+                                        *ngIf="addUserFrom.get('marital_status')?.value === 'Married'">
+                                        <div class="form-group">
+                                            <label for="spouse">Spouse Name
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" required class="form-control" id="spouse"
+                                                placeholder="Enter your spouse name" name="spouse_name"
+                                                formControlName="spouse_name">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="dob">Date of Birth <span class="text-danger">*</span></label>
+                                            <input type="date" name="dob" class="form-control" id="dob"
+                                                formControlName="dob" required (change)="calculateAge($event)">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="age">Age <span class="text-danger">*</span></label>
+                                            <input type="number" required class="form-control" id="age"
+                                                placeholder="Enter your age" [attr.disabled]="true" name="age"
+                                                [formControlName]="'age'" [value]="totalAge">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="email">Email address
+                                                <span class="text-danger">*</span></label>
+                                            <input type="email" email required class="form-control" name="email"
+                                                id="email" placeholder="Enter your email" formControlName="email">
+
+                                        </div>
+                                        <!-- <div *ngIf="!email?.valid && (email?.dirty || email?.touched)"
+                                            class="error text-danger">
+                                            <div *ngIf="email.errors?.['required']">Email is required</div>
+                                            <div *ngIf="email.errors?.['email']">Please enter a valid email address</div> -->
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="Phonenumber">Mobile
+                                                Number
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="Phonenumber" id="Phonenumber"
+                                                placeholder="Enter your mobile number" minlength="10" maxlength="10"
+                                                formControlName="Phonenumber" required>
+                                        </div>
+
+                                        <!-- <div *ngIf="!phoneNo?.valid && (phoneNo?.dirty || phoneNo?.touched)"
+                                            class="error text-danger">
+                                            <div *ngIf="phoneNo.errors?.['required']">
+                                                Contact number is required
+                                            </div>
+                                            <div *ngIf="(phoneNo.errors?.['minlength'] || phoneNo.errors?.['maxlength'])">
+                                                Please enter correct number
+                                            </div>
+    
+                                        </div> -->
+
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="file">Upload DOB Proof
+                                                (pdf
+                                                only upto 200 kb) <span class="text-danger">*</span></label>
+                                            <input type="file" class="form-control-file form-control" id="file"
+                                                name="file" formControlName="upload_dob_proof" multiple
+                                                (change)="fileUploads($event)"
+                                                accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="nationality">Nationality
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" required class="form-control" id="nationality"
+                                                placeholder="Enter your nationality" name="nationality"
+                                                formControlName="nationality">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Functional
+                                                Expertise<span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="sectoral_expertise"
+                                                formControlName="sectoral_expertise">
+                                                <option value disabled selected>Select Functional Expertise</option>
+                                                <option value="Admin">Admin</option>
+                                                <option value="Awareness Generation">Awareness Generation</option>
+                                                <option value="Capacity Building">Capacity Building and Training
+                                                </option>
+                                                <option value="Disaster Management">Disaster Management</option>
+                                                <option value="Disaster Mitigation">Disaster Mitigation</option>
+                                                <option value="Disaster Preparedness">Disaster Preparedness</option>
+                                                <option value="Disaster Response / Relief">Disaster Response / Relief
+                                                </option>
+                                                <option value="Finance">Finance</option>
+                                                <option value="International Cooperation">International Cooperation
+                                                </option>
+                                                <option value="IT / Communication">IT & Communication</option>
+                                                <option value="Disaster Rehabilitation and Reconstruction">Disaster
+                                                    Rehabilitation and Reconstruction</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <!-- <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Functional
+                                                Expertise<span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="sectoral_expertise"
+                                                formControlName="sectoral_expertise">
+                                                <option value disabled selected>Select Functional
+                                                    Expertise</option>
+                                                <option value="Disaster Preparedness">Disaster Preparedness</option>
+                                                <option value="Disaster Mitigation">Disaster Mitigation
+                                                </option>
+                                                <option value="Disaster Response / Relief"> Disaster Response / Relief
+                                                </option>
+                                                <option value="Post Disaster Response / Relief">Post Disaster Response /
+                                                    Relief
+                                                </option>
+                                                <option value="Admin">Admin
+                                                </option>
+                                                <option value="Finance">Finance
+                                                </option>
+                                                <option value="IT / Communication">IT & Communication
+                                                </option>
+                                                <option value="Capacity Building"> Capacity Building
+                                                </option>
+                                                <option value="International Cooperation">International Cooperation
+                                                </option>
+                                                <option value="Awareness Generation">Awareness Generation
+                                                </option>
+                                                <option value="Others">Others
+                                                </option>
+                                               
+                                            </select>
+                                        </div>
+                                    </div> -->
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Hazard Specific
+                                                Expertise<span class="text-danger">*</span></label>
+
+                                            <!-- <ng-select [items]="hazard_specific_expertise" bindLabel="name"
+                                                bindValue="name" placeholder="Select Hazard" [multiple]="true"
+                                                [(ngModel)]="selected_hazard_specific_expertise"
+                                                formControlName="hazard_specific_expertise">
+                                            </ng-select> -->
+
+                                            <!-- <select id="Name" class="form-control" name="hazard_specific_expertise"
+                                                formControlName="hazard_specific_expertise"
+                                                (change)="checkforOther(addUserFrom.value.hazard_specific_expertise)">
+                                                <option value disabled selected>Select Hazard Specific Expertise
+                                                </option>
+                                                <option value="Avalanche">Avalanche</option>
+                                                <option value="Biological (health)">Biological (health)</option>
+                                                <option value="Chemical">Chemical</option>
+                                                <option value="CloudBurst">Hailstorm</option>
+                                                <option value="Cold Wave">Cold wave</option>
+                                                <option value="Cyclone">Cyclone</option>
+                                                <option value="Drought">Drought</option>
+                                                <option value="Earthquakes">Earthquake</option>
+                                                <option value="Flood">Flood</option>
+                                                <option value="ForestFire">Forest Fire</option>
+                                                <option value="Forest Safety">Forest Safety</option>
+                                                <option value="Glof">GLOF</option>
+                                                <option value="Heat Wave">Heat wave</option>
+                                                <option value="Landslides">Landslides</option>
+                                                <option value="Lightning">Lightning</option>
+                                                <option value="Meteorological">Meteorological</option>
+                                                <option value="Nuclear">Nuclear</option>
+                                                <option value="Riverine Flood">Riverine Flood</option>
+                                                <option value="River Erosion">River Erosion</option>
+                                                <option value="See Erosion">Sea Erosion</option>
+                                                <option value="Tsunami">Tsunami</option>
+                                                <option value="Urban flood">Urban flood</option>
+                                                <option value="volcanic Eruptions">Volcanic Eruptions</option>
+                                                <option value="Other">Others</option>
+                                            </select> -->
+
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3" *ngIf="showOther">
+                                        <div class="form-group">
+                                            <label for="Other_hazard_specific_expertise">Other Hazard Specific expertise
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" name="Other_hazard_specific_expertise" required
+                                                class="form-control" id="Other_hazard_specific_expertise"
+                                                placeholder="Enter Other hazard specific expertise"
+                                                formControlName="Other_hazard_specific_expertise">
+                                        </div>
+                                    </div>
+
+
+                                    <!-- <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="Name">Hazard Specific
+                                                Expertise<span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="hazard_specific_expertise"
+                                                formControlName="hazard_specific_expertise">
+                                                <option value disabled selected>Select Hazard
+                                                    Specific
+                                                    Expertise</option>
+                                                <option value="Earthquakes">Earthquake</option>
+                                                <option value="volcanic Eruptions">Volcanic
+                                                    Eruptions</option>
+                                                <option value="Tsunami">Tsunami</option>
+                                                <option value="Cyclone">Cyclone</option>
+                                                <option value="Flood">Flood, Urban flood</option>
+                                                <option value="Glof">Glof</option>
+                                                <option value="Drought">Drought</option>
+                                                <option value="Lightning">Lightning, Thunderstorm</option>
+                                                <option value="CloudBurst">Cloud Burst, Hailstorm</option>
+                                                <option value="ForestFire">Forest Fire, Urban fire</option>
+                                                <option value="Heat Wave">Heat wave</option>
+                                                <option value="Cold Wave">Cold wave</option>
+                                                <option value="Biological (health)">Biological (health)</option>
+                                                <option value="Chemical">Chemical, Nuclear</option>
+                                                <option value="Drowning">Drowning</option>
+                                                <option value="Other">Other</option>
+
+                                            </select>
+                                        </div>
+                                    </div> -->
+
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="address">Address for
+                                                Communication</label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="current_addressAdd">Address</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="current_addressAdd"
+                                                                    placeholder="Enter your Address"
+                                                                    formControlName="current_address">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="current_state_id">State</label>
+                                                                <select class="form-control" name="current State Id"
+                                                                    id="current_state_id"
+                                                                    formControlName="current_state_id"
+                                                                    (change)="onCurrentStateChange(addUserFrom.value.current_state_id)">
+                                                                    <option value disabled selected>
+                                                                        Select
+                                                                        State
+                                                                        Name
+                                                                    </option>
+                                                                    <option *ngFor="let state of allstateDropDownList"
+                                                                        [value]="state.id">
+                                                                        {{
+                                                                        state.name
+                                                                        }}
+                                                                    </option>
+                                                                </select>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="citydistrictAdd">District</label>
+                                                                <select class="form-control"
+                                                                    formControlName="current_district_id"
+                                                                    id="current_district_id" name="current_district_id">
+                                                                    <option value disabled selected>
+                                                                        Select
+                                                                        District
+                                                                        Name
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let district of currentDistrictDropDownList"
+                                                                        [value]="district.id">{{district.name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="current_cityAdd">City</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="current_cityAdd" placeholder="Enter your City"
+                                                                    formControlName="current_city">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="current_pincodeAdd">Pincode</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="current_pincodeAdd"
+                                                                    placeholder="Enter your Pincode"
+                                                                    formControlName="current_pincode">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="current_streetNo">Street
+                                                                    No.</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="current_streetNo"
+                                                                    placeholder="Enter your street number"
+                                                                    formControlName="current_streetno">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <input type="checkbox" class="form-check-input me-2" id="sameAsAddress"
+                                                placeholder="Enter your permanent address" name="sameAsAddress"
+                                                (click)="copyAddress($event)" formControlName="copy_address">
+                                            <label for="sameAsAddress">Same as
+                                                the
+                                                Communication Address</label>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="per_address">Permanent
+                                                Address</label>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="addressPer">Address</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="addressPer" id="addressPer"
+                                                                    placeholder="Enter your Address"
+                                                                    formControlName="permanent_address">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+
+                                                                <label for="permanent_state_id">State</label>
+                                                                <select class="form-control" name="current State Id"
+                                                                    id="permanent_state_id"
+                                                                    formControlName="permanent_state_id"
+                                                                    (change)="onPermanentStateChange(addUserFrom.value.permanent_state_id)">
+                                                                    <option value disabled selected>
+                                                                        Select
+                                                                        State
+                                                                        Name
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let permanent of allstateDropDownList"
+                                                                        [value]="permanent.id">{{permanent.name}}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="permanent_district_id">District</label>
+                                                                <select class="form-control"
+                                                                    formControlName="permanent_district_id"
+                                                                    id="permanent_district_id"
+                                                                    name="permanent_district_id">
+                                                                    <option value disabled selected>
+                                                                        Select
+                                                                        District
+                                                                        Name
+                                                                    </option>
+                                                                    <option
+                                                                        *ngFor="let dist of permanentDistrictDropDownList"
+                                                                        [value]="dist.id">
+                                                                        {{
+                                                                        dist.name
+                                                                        }}
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="permanent_city">City</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="permanent_city" id="permanent_city"
+                                                                    placeholder="Enter your City"
+                                                                    formControlName="permanent_city">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="permanent_pincode">Pincode</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="permanent_pincode" id="permanent_pincode"
+                                                                    placeholder="Enter your Pincode"
+                                                                    formControlName="permanent_pincode">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="streetNoPer">Street
+                                                                    No.</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="streetNoPer" id="streetNoPer"
+                                                                    placeholder="Enter your street number"
+                                                                    formControlName="permanent_streetno">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label>Whether Applicant have
+                                                Essential
+                                                Qualification</label>
+                                            <div class="d-flex">
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="Qualification"
+                                                        id="exampleRadio1"
+                                                        value="yes" checked>
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="exampleRadio1">
+                                                        Yes
+                                                    </label>
+                                                </div>
+                                                <div class="form-check ms-4">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="radio"
+                                                        name="Qualification"
+                                                        id="exampleRadio2"
+                                                        value="no">
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="exampleRadio2">
+                                                        No
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+
+                                <!-- <hr class="hr" /> -->
+
+                                <div class="row mb-2">
+                                    <div class="col col-md-8 ">
+                                        <label>Education (Collage education in
+                                            reverse chronological order) (Pls
+                                            add
+                                            rows if
+                                            required) <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <div class="row">
+
+                                                        <div class="col text-end p-2 ">
+                                                            <button class="btn btn-primary me-4"
+                                                                (click)="onAddEucation()">Add
+                                                                +</button>
+                                                            <!-- <button class="btn btn-danger px-4 me-4" *ngIf="oneduDel"
+                                                            (click)="delRow('oneduDel',eduRow)">Del</button> -->
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="min-width-sr">S
+                                                                    No.</th>
+                                                                <th scope="col" class="min-width">Year</th>
+                                                                <th scope="col">Degree/Diploma</th>
+                                                                <th scope="col">University/Institution</th>
+                                                                <th scope="col" class="min-width">Division/GPA</th>
+                                                                <th scope="col" class="min-width">Subjects</th>
+                                                                <th scope="col" class="min-width">Document (PDF only)
+                                                                </th>
+                                                                <th scope="col" class="min-width">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--FormArray-->
+                                                            <ng-container formArrayName="education">
+                                                                <tr
+                                                                    *ngFor="let edu of getEducationArray().controls; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <th scope="row">{{i+1}}</th>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="yearGrad{{i}}"
+                                                                                    placeholder="Enter Year" required
+                                                                                    name="gradYear{{i}}"
+                                                                                    formControlName="year">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="gradDegree{{i}}"
+                                                                                    placeholder="Enter Degree" required
+                                                                                    name="gradDegree{{i}}"
+                                                                                    formControlName="degree">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="university{{i}}"
+                                                                                    placeholder="Enter University Name"
+                                                                                    required name="university{{i}}"
+                                                                                    formControlName="university">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control" id="gpa{{i}}"
+                                                                                    placeholder="Enter your GPA"
+                                                                                    required name="gpa{{i}}"
+                                                                                    formControlName="gpa">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="gradSub{{i}}"
+                                                                                    placeholder="Enter your subjects"
+                                                                                    required name="gradSub{{i}}"
+                                                                                    formControlName="subject">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="file"
+                                                                                    class="form-control-file form-control"
+                                                                                    name="eduProof{{i}}"
+                                                                                    formControlName="education_proof"
+                                                                                    multiple
+                                                                                    (change)="fileUploads($event)"
+                                                                                    accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx"
+                                                                                    required>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <button class="btn btn-outline-danger"
+                                                                                    (click)="removEeducation(i)">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="16" height="16"
+                                                                                        fill="currentColor"
+                                                                                        class="bi bi-trash"
+                                                                                        viewBox="0 0 16 16">
+                                                                                        <path
+                                                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                                        <path
+                                                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                </tr>
+                                                            </ng-container>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 mt-4">
+                                    <div class="col col-md-8">
+                                        <label>Experience (in reverse
+                                            chronological
+                                            order) (Pls add rows if required)
+                                            <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <div class="row">
+                                                        <!-- <div class="col">
+                                                            <span class="h5 border-bottom border-2 border-dark">Total
+                                                                Experience :
+                                                                <span class="h4">3
+                                                                    year</span></span>
+                                                        </div> -->
+                                                        <div class="col text-end p-2 ">
+                                                            <button class="btn btn-primary me-4"
+                                                                (click)="onAddExperience()">Add
+                                                                +</button>
+                                                            <!-- <button class="btn btn-danger px-4 me-4" *ngIf="onexpDel"
+                                                            (click)="delRow('onexpDel',expRow)">Delete</button> -->
+                                                        </div>
+
+                                                    </div>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="min-width-sr">S
+                                                                    No.</th>
+                                                                <th scope="col" class="text-center">
+                                                                    Start Date
+                                                                </th>
+                                                                <th scope="col" class="text-center">
+                                                                    End Date
+                                                                </th>
+                                                                <th scope="col" class="text-center">
+                                                                    Total
+                                                                    Duration
+                                                                </th>
+                                                                <th scope="col">Organization
+                                                                    /
+                                                                    Institution
+                                                                </th>
+                                                                <th scope="col" class="min-width">Nature
+                                                                    of work
+                                                                </th>
+                                                                <th scope="col" class="min-width">Accomplishments</th>
+                                                                <th scope="col" class="min-width">Document (PDF only)
+                                                                </th>
+                                                                <th scope="col">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--FormArray-->
+                                                            <ng-container formArrayName="experience">
+                                                                <tr
+                                                                    *ngFor="let exp of getExperienceArray().controls; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <th scope="row">{{i+1}}</th>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="date" id="start_date{{i}}"
+                                                                                    class="form-control"
+                                                                                    name="start_date"
+                                                                                    formControlName="start_date"
+                                                                                    (change)="calculateDaysDifference(i,'experience')">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="date" id="end_date{{i}}"
+                                                                                    class="form-control" name="end_date"
+                                                                                    formControlName="end_date"
+                                                                                    (change)="calculateDaysDifference(i,'experience')">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td class="min-width">
+                                                                            <div class="form-group">
+                                                                                <input type="text" readonly
+                                                                                    class="form-control"
+                                                                                    id="total_time_duration{{i}}"
+                                                                                    placeholder="Total Duration"
+                                                                                    formControlName="total_time_duration">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="organisation_or_institution"
+                                                                                    placeholder="Enter your Organization /
+                                                                    Institution" name="organisation_or_institution"
+                                                                                    formControlName="organisation_or_institution">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="nature_of_work"
+                                                                                    placeholder="Enter your Nature of work"
+                                                                                    name="nature_of_work"
+                                                                                    formControlName="nature_of_work">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="Accomplishments"
+                                                                                    placeholder="Enter your Accomplishments"
+                                                                                    name="accomplishment"
+                                                                                    formControlName="accomplishment">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <div class="form-group">
+                                                                                    <input type="file"
+                                                                                        class="form-control-file form-control"
+                                                                                        name="accomplishment_proof"
+                                                                                        formControlName="accomplishment_proof"
+                                                                                        multiple
+                                                                                        (change)="fileUploads($event)"
+                                                                                        accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx"
+                                                                                        required>
+                                                                                </div>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <button class="btn btn-outline-danger"
+                                                                                    (click)="removeExperience(i)">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="16" height="16"
+                                                                                        fill="currentColor"
+                                                                                        class="bi bi-trash"
+                                                                                        viewBox="0 0 16 16">
+                                                                                        <path
+                                                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                                        <path
+                                                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </ng-container>
+
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">Total Experience</td>
+                                                                    <td class="min-width">
+                                                                        <div class="form-group">
+                                                                            <input type="text" readonly
+                                                                                class="form-control"
+                                                                                [value]="totalExperience">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-container>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-2 mt-4">
+                                    <div class="col col-md-8">
+                                        <label>Trainings: (Pls add rows if
+                                            required)
+                                            <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="card mb-4">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <div class="row">
+                                                        <div class="col text-end p-2 ">
+                                                            <button class="btn btn-primary me-4"
+                                                                (click)="onAddTraining()">Add
+                                                                +</button>
+                                                        </div>
+                                                    </div>
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="min-width-sr">S
+                                                                    No.</th>
+                                                                <th scope="col" class="text-center">
+                                                                    Start Date
+                                                                </th>
+                                                                <th scope="col" class="text-center">
+                                                                    End Date
+                                                                </th>
+                                                                <th scope="col" class="text-center">
+                                                                    Total
+                                                                    Duration
+                                                                </th>
+                                                                <th scope="col">Organization
+                                                                    /
+                                                                    Institution
+                                                                </th>
+                                                                <th scope="col">Document (PDF only)
+                                                                </th>
+                                                                <th scope="col">Action</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--FormArray-->
+                                                            <ng-container formArrayName="training">
+                                                                <tr
+                                                                    *ngFor="let exp of getTrainingArray().controls; let i = index;">
+                                                                    <ng-container [formGroupName]="i">
+                                                                        <th scope="row">{{i + 1}}</th>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="date" id="start_date{{i}}"
+                                                                                    class="form-control"
+                                                                                    name="start_date"
+                                                                                    formControlName="start_date"
+                                                                                    (change)="calculateDaysDifference(i,'training')">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="date" id="end_date{{i}}"
+                                                                                    class="form-control" name="end_date"
+                                                                                    formControlName="end_date"
+                                                                                    (change)="calculateDaysDifference(i,'training')">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" readonly
+                                                                                    class="form-control"
+                                                                                    id="total_time_duration{{i}}"
+                                                                                    name="total_time_duration"
+                                                                                    placeholder="Total Duration"
+                                                                                    formControlName="total_time_duration">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="text" required
+                                                                                    class="form-control"
+                                                                                    id="organisation_or_institution"
+                                                                                    placeholder="Enter your Organization / Institution name"
+                                                                                    name="organisation_or_institution"
+                                                                                    formControlName="organisation_or_institution">
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <input type="file"
+                                                                                    class="form-control-file form-control"
+                                                                                    id="file"
+                                                                                    name="training_organisation_doc"
+                                                                                    formControlName="training_organisation_doc"
+                                                                                    multiple
+                                                                                    (change)="fileUploads($event)"
+                                                                                    accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx"
+                                                                                    required>
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group">
+                                                                                <button class="btn btn-outline-danger"
+                                                                                    (click)="removeTraining(i)">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="16" height="16"
+                                                                                        fill="currentColor"
+                                                                                        class="bi bi-trash"
+                                                                                        viewBox="0 0 16 16">
+                                                                                        <path
+                                                                                            d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                                        <path
+                                                                                            d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                                                    </svg>
+                                                                                </button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </ng-container>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td colspan="3">Total Experience</td>
+                                                                    <td class="min-width">
+                                                                        <div class="form-group">
+                                                                            <input type="text" readonly
+                                                                                class="form-control"
+                                                                                [value]="totalTraining">
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-container>
+
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="awards">Awards /
+                                                Recognitions <span class="text-danger">*</span></label>
+                                            <input type="text" name="awards" class="form-control" id="awards"
+                                                placeholder="Enter your experience" formControlName="awards">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="membership">Membership
+                                                of
+                                                Professional Bodies /
+                                                Associations
+                                                <span class="text-danger">*</span></label>
+                                            <input type="text" name="membership" class="form-control" id="membership"
+                                                placeholder="Enter your experience" formControlName="membership">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="retired">Retired
+                                                Government
+                                                Staff - Pls indicate last drawn
+                                                Pay <span class="text-danger">*</span></label>
+                                            <select id="yesNoPay" class="form-control" name="yesNoPay"
+                                                formControlName="yesNoPay">
+                                                <option value disabled selected>Select your
+                                                    Pay</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6" *ngIf="addUserFrom.get('yesNoPay')?.value === 'Yes'">
+                                        <div class="form-group">
+                                            <label for="payDocs">Last Pay Drawn (LPD)
+                                                <span class="text-danger">*</span></label>
+                                            <input type="file" name="payDocs" class="form-control-file form-control"
+                                                id="payDocs" formControlName="retired_govt_staff">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6" *ngIf="addUserFrom.get('yesNoPay')?.value === 'Yes'">
+                                        <div class="form-group">
+                                            <label for="ppoDocs">PPO (Pension Payment Order) Document (PDF only)
+                                                <span class="text-danger">*</span></label>
+                                            <input type="file" name="ppoDocs" class="form-control-file form-control"
+                                                id="ppoDocs" formControlName="ppoDocs">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6" *ngIf="addUserFrom.get('yesNoPay')?.value === 'Yes'">
+                                        <div class="form-group">
+                                            <label for="payBand">Pay Band <span class="text-danger">*</span></label>
+                                            <select id="Name" class="form-control" name="Name" formControlName="gender">
+                                                <option value disabled selected>Select
+                                                    Pay Level</option>
+                                                <option value="Level 5">Level 5</option>
+                                                <option value="Level 6">Level 6</option>
+                                                <option value="Level 7">Level 7</option>
+                                                <option value="Level 8">Level 8</option>
+                                                <option value="Level 9">Level 9</option>
+                                                <option value="Level 10">Level 10</option>
+                                                <option value="Level 11">Level 11</option>
+                                                <option value="Level 12">Level 12</option>
+                                                <option value="Level 13">Level 13</option>
+                                                <option value="Level 13">Level 13 A</option>
+                                                <option value="Level 14">Level 14</option>
+                                                <option value="Level 15">Level 15</option>
+                                                <option value="Level 16">Level 16</option>
+                                                <option value="Level 17">Level 17</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="photo">
+                                                Recent Passport Size Photograph
+                                                (jpg/jpeg/png upto 100 kb only)
+                                                <span class="text-danger">*</span>
+                                            </label>
+                                            <input type="file" formControlName="passportPhoto" name="passportPhoto"
+                                                class="form-control-file form-control" id="passportPhoto" multiple
+                                                (change)="fileUploads($event)"
+                                                accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6">
+                                        <div class="form-group">
+                                            <label for="cv">Upload CV (pdf only
+                                                upto
+                                                200 kb) <span class="text-danger">*</span></label>
+                                            <input type="file" name="upload_cv" class="form-control-file form-control"
+                                                id="upload_cv" formControlName="upload_cv" multiple
+                                                (change)="fileUploads($event)"
+                                                accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 ">
+                                        <div class="form-group">
+                                            <label for="signature">
+                                                Signatures (jpg/jpeg/png upto
+                                                100 kb
+                                                only) <span class="text-danger">*</span></label>
+                                            <input type="file" name="signature" class="form-control-file form-control"
+                                                id="signature" formControlName="signature" multiple
+                                                (change)="fileUploads($event)"
+                                                accept=".pdf, .jpg, .jpeg, .xlsx, .xls, .ppt, .docx">
+                                        </div>
+                                    </div>
+                                    <!-- refrence -->
+                                    <div class="row mb-2 mt-4">
+                                        <div class="col col-md-8">
+                                            <label>References: (Pls add rows if
+                                                required) <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive">
+                                                        <!-- <div class="row">
+                                                            <div class="col text-end p-2 ">
+                                                                <button class="btn btn-primary me-4"
+                                                                    (click)="onAddRefrences()">Add
+                                                                    +</button>
+                                                               
+                                                            </div>
+                                                        </div> -->
+                                                        <table class="table table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col" class="min-width-sr">S
+                                                                        No.</th>
+                                                                    <th scope="col">
+                                                                        Name
+                                                                    </th>
+                                                                    <th scope="col">
+                                                                        Designation
+                                                                    </th>
+                                                                    <th scope="col">Institution
+                                                                    </th>
+                                                                    <th scope="col">Address
+                                                                    </th>
+                                                                    <th scope="col">Email</th>
+                                                                    <th scope="col">Phone
+                                                                        Number</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!--FormArray-->
+                                                                <ng-container formArrayName="references">
+                                                                    <tr
+                                                                        *ngFor="let exp of getRefrencesArray().controls; let i = index;">
+                                                                        <ng-container [formGroupName]="i">
+                                                                            <th scope="row">{{i+1}}</th>
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="text"
+                                                                                        id="reference_name{{i}}"
+                                                                                        class="form-control"
+                                                                                        name="reference_name"
+                                                                                        placeholder="Enter Name"
+                                                                                        formControlName="reference_name">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="text"
+                                                                                        id="ReferenceDesg{{i}}"
+                                                                                        class="form-control"
+                                                                                        name="designation"
+                                                                                        placeholder="Enter Designation"
+                                                                                        formControlName="designation">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="text"
+                                                                                        class="form-control"
+                                                                                        id="ReferenceInst{{i}}"
+                                                                                        name="Institution"
+                                                                                        placeholder="Enter Institution"
+                                                                                        formControlName="Institution">
+                                                                                </div>
+                                                                            </td>
+
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="text" required
+                                                                                        class="form-control"
+                                                                                        id="ReferenceAddress{{i}}"
+                                                                                        placeholder="Enter address"
+                                                                                        name="address"
+                                                                                        formControlName="address">
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="email"
+                                                                                        class="form-control"
+                                                                                        id="ReferenceEmail{{i}}"
+                                                                                        name="reference_email"
+                                                                                        placeholder="Enter Email"
+                                                                                        formControlName="reference_email"
+                                                                                        required>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div class="form-group">
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="ReferenceNumber{{i}}"
+                                                                                        name="phone_number"
+                                                                                        placeholder="Enter Number"
+                                                                                        formControlName="phone_number"
+                                                                                        required>
+                                                                                </div>
+                                                                            </td>
+                                                                            <!-- <td>
+                                                                                <div class="form-group">
+                                                                                    <button
+                                                                                        class="btn btn-outline-danger"
+                                                                                        (click)="removeRefrences(i)">
+                                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                            width="16" height="16"
+                                                                                            fill="currentColor"
+                                                                                            class="bi bi-trash"
+                                                                                            viewBox="0 0 16 16">
+                                                                                            <path
+                                                                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                                            <path
+                                                                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                                                        </svg>
+                                                                                    </button>
+                                                                                </div>
+                                                                            </td> -->
+                                                                        </ng-container>
+
+                                                                    </tr>
+                                                                </ng-container>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12 mb-2">
+                                        <div class="form-group">
+                                            <label for="sop"> Statement Of Purpose (SOP) (Max Word Limit is 250) <span
+                                                    class="text-danger">*</span></label>
+                                            <textarea class="form-control" name="sop" formControlName="sop" id="sop"
+                                                rows="3" minlength="250" maxlength="250"></textarea>
+                                        </div>
+                                    </div> -->
+                                    <!-- app.component.html -->
+
+                                    <div class="col-12 mb-2">
+
+                                        <div class="form-group">
+                                            <label for="sop">Statement Of Purpose (SOP) (Max Word Limit is 250) <span
+                                                    class="text-danger">*</span></label>
+                                            <textarea class="form-control" name="sop" formControlName="sop" id="sop"
+                                                rows="3" (input)="onInputChange($event)"></textarea>
+                                            <div *ngIf="wordCount > maxWords" class="text-danger">
+                                                Maximum word limit reached. You have {{ wordCount }} words.
+                                            </div>
+                                            <div *ngIf="wordCount <= maxWords">
+                                                You have used {{ wordCount }} out of {{ maxWords }} words.
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" name="termConditions" type="checkbox"
+                                                    id="acceptTerms" required>
+                                                <label class="form-check-label" style=" text-align: justify;"
+                                                    for="acceptTerms">
+                                                    I have carefully gone
+                                                    through
+                                                    the advertisement and I am
+                                                    well
+                                                    aware that
+                                                    the information furnished
+                                                    above
+                                                    is duly supported by the
+                                                    documents in
+                                                    respect of Essential
+                                                    Qualification/ Work
+                                                    Experience
+                                                    submitted by me will
+                                                    also be assessed by the
+                                                    Selection Committee at the
+                                                    time
+                                                    of selection for
+                                                    the position. The
+                                                    information/details provided
+                                                    by
+                                                    me are correct and
+                                                    true to the best of my
+                                                    knowledge
+                                                    and no material fact having
+                                                    a
+                                                    bearing
+                                                    on my selection has been
+                                                    suppressed/ withheld.<span class="text-danger">*</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="btnCont d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary btn-block px-5"
+                                        (click)="saveHrData()">Submit</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
